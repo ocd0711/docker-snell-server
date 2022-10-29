@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t ocd/snell-server:latest .
+docker build -t ocd0711/docker-snell:aarch64 .
