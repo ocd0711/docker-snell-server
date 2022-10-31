@@ -2,7 +2,17 @@
 
 ## 运行
 
-> 默认 PSK 为: 3iR6KAPRyt3VT06
+1. compose 与 snell-server.conf 同目录(会操作的非同目录也行)
+2. 映射 snell-server
+
+conf 参考
+
+```
+[snell-server]
+listen = ::0:port
+psk = password
+ipv6 = true
+```
 
 ### amd64
 
@@ -10,50 +20,32 @@
 
 ```
 version: '3.8'
-networks:
-  snell-ocd:
 services:
 
   snell:
     image: ocd0711/docker-snell:amd64
     container_name: snell
-    networks:
-      - snell-ocd
+    networks: host
     restart: always
-    ports:
-      - "$yourport:8080"
+    volumes:
+      - $PWD/snell-server.conf:/etc/snell-server.conf
     environment:
-      - PSK=$yourpsk
-```
-
-- docker run
-
-```
-docker run -d --restart=always --name snell-server -e PSK=$yourpsk -p $yourport:8080 ocd0711/docker-snell:amd64
+      - SNELL_URL=https://dl.nssurge.com/snell/snell-server-v4.0.0-linux-amd64.zip
 ```
 
 ### arm64
 
 ```
 version: '3.8'
-networks:
-  snell-ocd:
 services:
 
   snell:
     image: ocd0711/docker-snell:aarch64
     container_name: snell
-    networks:
-      - snell-ocd
+    networks: host
     restart: always
-    ports:
-      - "$yourport:8080"
+    volumes:
+      - $PWD/snell-server.conf:/etc/snell-server.conf
     environment:
-      - PSK=$yourpsk
-```
-
-- docker run
-
-```
-docker run -d --restart=always --name snell-server -e PSK=$yourpsk -p $yourport:8080 ocd0711/docker-snell:aarch64
+      - SNELL_URL=https://dl.nssurge.com/snell/snell-server-v4.0.0-linux-aarch64.zip
 ```
